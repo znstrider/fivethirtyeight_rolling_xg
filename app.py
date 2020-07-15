@@ -159,7 +159,7 @@ for idx, club in enumerate(sorted(club_names)):
     plt.ylim(-2.5, 2.5)
     
     ymin, ymax = plt.gca().get_ylim()
-    plt.hlines(y=0, xmin=0., xmax=35, color='k', lw=0.5)
+    plt.hlines(y=0, xmin=0., xmax=plt.gca().get_xlim()[1], color='k', lw=0.5)
 
     sns.despine()
     plt.title(club, color='firebrick', fontsize=20, fontname=fontname)
