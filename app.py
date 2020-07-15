@@ -7,9 +7,6 @@ import math
 
 fontname = 'Enigmatic Unicode'
 
-d = pd.read_csv('https://projects.fivethirtyeight.com/soccer-api/club/spi_matches.csv')
-
-
 def divisorGenerator(n):
     large_divisors = []
     for i in range(1, int(math.sqrt(n) + 1)):
@@ -112,14 +109,22 @@ def get_games(d, team, n = 5, season = 2019):
     games = add_opponents(games, team)
     games = add_points_won(games)
     games = add_ground(games, team)
-    
+
     return games
 
-d = add_season(d)
 
-# available leagues with xg data
-leagues = d.dropna().league.unique()
-seasons = d.dropna().Season.unique().astype('int')[-1::-1]
+@st.cache(suppress_st_warning=True)
+def get_data():
+    d = pd.read_csv('https://projects.fivethirtyeight.com/soccer-api/club/spi_matches.csv')
+    d = add_season(d)
+
+    # available leagues with xg data
+    leagues = d.dropna().league.unique()
+    seasons = d.dropna().Season.unique().astype('int')[-1::-1]
+
+    return d, leagues, seasons
+
+df, leagues, seasons = get_data()
 
 league_option = st.sidebar.selectbox(
     "Which League do you want to view?",
@@ -129,7 +134,7 @@ season_option = st.sidebar.selectbox(
     "Which Season do you want to view?",
     seasons)
 
-d = d.loc[(d.league == league_option)&(d.Season == season_option)&(pd.notna(d['xg1']))]
+d = df.loc[(df.league == league_option)&(df.Season == season_option)&(pd.notna(df['xg1']))]
 club_names = d.team1.unique()
 
 games_list = {}
