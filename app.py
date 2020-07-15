@@ -119,7 +119,7 @@ d = add_season(d)
 
 # available leagues with xg data
 leagues = d.dropna().league.unique()
-seasons = d.dropna().Season.unique().astype('int')
+seasons = d.dropna().Season.unique().astype('int')[-1::-1]
 
 league_option = st.sidebar.selectbox(
     "Which League do you want to view?",
