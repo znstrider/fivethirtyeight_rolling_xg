@@ -169,7 +169,7 @@ for idx, club in enumerate(sorted(club_names)):
     if idx % width == 0:
         plt.ylabel('Expected Goals Difference', fontname=fontname, fontsize=16)
     
-plt.suptitle(f'Rolling Expected Goal Difference (over 7 games)\nin {league_option} in {season_option}/{season_option+1}', fontsize=42, fontname=fontname)
+plt.suptitle(f'Rolling Expected Goal Difference (over 7 games)\n{league_option} - {season_option}/{season_option+1}', fontsize=42, fontname=fontname)
 
 
 fig.text(s = 'Data: FiveThirtyEight', x=0.01, y=0.0025, fontsize=14, fontname = fontname, color = '#969696')
