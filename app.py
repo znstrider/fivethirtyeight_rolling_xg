@@ -42,6 +42,8 @@ def add_season(d):
                   'Season'] = 2018
     d.loc[((d.Year == 2019)&(d.Month >= 7)|(d.Year == 2020)&(d.Month < 8)),
                   'Season'] = 2019
+    d.loc[((d.Year == 2020)&(d.Month >= 8)|(d.Year == 2021)&(d.Month < 7)),
+                  'Season'] = 2020
     d['Season'] = d['Season'].astype('float')
     return d
 
@@ -65,7 +67,7 @@ def get_last_n_games(d, team, n = 5, season = None):
         else:
             seasons_string = ', '.join([str(year) for year in available_seasons])
             raise ValueError(f'Season {season} is not a valid season for {team}. {seasons_string} are valid seasons.')
-    
+
     games = games.iloc[-n:]
     games[['score1', 'score2']] = games[['score1', 'score2']].astype('int')
     return games
@@ -162,18 +164,18 @@ for idx, club in enumerate(sorted(club_names)):
 
     plt.xticks(np.arange(4, len(df)+1, 4))
     plt.ylim(-2.5, 2.5)
-    
+
     ymin, ymax = plt.gca().get_ylim()
     plt.hlines(y=0, xmin=0., xmax=plt.gca().get_xlim()[1], color='k', lw=0.5)
 
     sns.despine()
     plt.title(club, color='firebrick', fontsize=20, fontname=fontname)
-    
+
     if idx >= (n_teams - width):
         plt.xlabel('Gameweek', fontname=fontname, fontsize=16)
     if idx % width == 0:
         plt.ylabel('Expected Goals Difference', fontname=fontname, fontsize=16)
-    
+
 plt.suptitle(f'Rolling Expected Goal Difference (over 7 games)\n{league_option} - {season_option}/{season_option+1}', fontsize=42, fontname=fontname)
 
 
